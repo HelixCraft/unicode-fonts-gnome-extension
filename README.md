@@ -1,4 +1,4 @@
-# Unicode Font Converter für GNOME
+# Unicode Fonts for GNOME
 
 Ein vollständiges System zur Umwandlung von Text in verschiedene Unicode-Schriftarten, bestehend aus einer **GNOME Shell Extension** und einer optionalen **IBus Input Method Engine**.
 
