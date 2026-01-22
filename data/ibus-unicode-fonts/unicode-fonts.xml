@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component>
+  <name>org.freedesktop.IBus.UnicodeFonts</name>
+  <description>Unicode Font Converter Input Method</description>
+  <exec>/usr/share/ibus-unicode-fonts/engine.py --ibus</exec>
+  <version>1.0.0</version>
+  <author>Your Name</author>
+  <license>GPL</license>
+  <homepage>https://github.com/yourusername/unicode-font-converter</homepage>
+  <textdomain>ibus-unicode-fonts</textdomain>
+  
+  <engines>
+    <engine>
+      <name>unicode-fonts</name>
+      <language>en</language>
+      <license>GPL</license>
+      <author>Your Name</author>
+      <icon></icon>
+      <layout>default</layout>
+      <longname>Unicode Fonts</longname>
+      <description>Transform text to Unicode font styles (Script, Fraktur, Circled, etc.)</description>
+      <rank>0</rank>
+    </engine>
+  </engines>
+</component>
