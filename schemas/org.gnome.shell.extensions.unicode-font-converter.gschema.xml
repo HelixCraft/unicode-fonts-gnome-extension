@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.unicode-font-converter" path="/org/gnome/shell/extensions/unicode-font-converter/">
+    <key name="selected-font" type="s">
+      <default>'script'</default>
+      <summary>Selected Unicode font style</summary>
+      <description>
+        The currently selected Unicode font style for text transformation.
+        Valid values: script, scriptBold, fraktur, frakturBold, circled, circledInverted,
+        squared, squaredInverted, capitalized, fullWidth, monospace, sansSerif,
+        sansSerifItalic, sansSerifBold, sansSerifBoldItalic
+      </description>
+    </key>
+  </schema>
+</schemalist>

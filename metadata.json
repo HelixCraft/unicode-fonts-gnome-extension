@@ -1,0 +1,11 @@
+{
+  "uuid": "unicode-font-converter@gnome",
+  "name": "Unicode Font Converter",
+  "description": "Convert text to various Unicode font styles (Script, Fraktur, Circled, etc.) with live preview and clipboard integration",
+  "version": 1,
+  "shell-version": [
+    "43"
+  ],
+  "url": "https://github.com/yourusername/unicode-font-converter",
+  "settings-schema": "org.gnome.shell.extensions.unicode-font-converter"
+}
