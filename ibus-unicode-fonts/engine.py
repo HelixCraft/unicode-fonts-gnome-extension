@@ -10,88 +10,41 @@ gi.require_version('IBus', '1.0')
 from gi.repository import IBus
 from gi.repository import GLib
 from gi.repository import Gio
+from gi.repository import GObject
 
 import sys
 import os
+import json
 
-# Unicode mapping tables (same as in unicodeMaps.js)
-UNICODE_MAPS = {
-    'script': {
-        'upper': '𝒜ℬ𝒞𝒟ℰℱ𝒢ℋℐ𝒥𝒦ℒℳ𝒩𝒪𝒫𝒬ℛ𝒮𝒯𝒰𝒱𝒲𝒳𝒴𝒵',
-        'lower': '𝒶𝒷𝒸𝒹ℯ𝒻ℊ𝒽𝒾𝒿𝓀𝓁𝓂𝓃ℴ𝓅𝓆𝓇𝓈𝓉𝓊𝓋𝓌𝓍𝓎𝓏',
-        'digits': '0123456789'
-    },
-    'scriptBold': {
-        'upper': '𝓐𝓑𝓒𝓓𝓔𝓕𝓖𝓗𝓘𝓙𝓚𝓛𝓜𝓝𝓞𝓟𝓠𝓡𝓢𝓣𝓤𝓥𝓦𝓧𝓨𝓩',
-        'lower': '𝓪𝓫𝓬𝓭𝓮𝓯𝓰𝓱𝓲𝓳𝓴𝓵𝓶𝓷𝓸𝓹𝓺𝓻𝓼𝓽𝓾𝓿𝔀𝔁𝔂𝔃',
-        'digits': '0123456789'
-    },
-    'fraktur': {
-        'upper': '𝔄𝔅ℌ𝔇𝔈𝔉𝔊ℌ𝔍𝔎𝔏𝔐𝔑𝔒𝔓𝔔ℜ𝔖𝔗𝔘𝔙𝔚𝔛𝔜ℨ',
-        'lower': '𝔞𝔟𝔠𝔡𝔢𝔣𝔤𝔥𝔦𝔧𝔨𝔩𝔪𝔫𝔬𝔭𝔮𝔯𝔰𝔱𝔲𝔳𝔴𝔵𝔶𝔷',
-        'digits': '0123456789'
-    },
-    'frakturBold': {
-        'upper': '𝕬𝕭𝕮𝕯𝕰𝕱𝕲𝕳𝕴𝕵𝕶𝕷𝕸𝕹𝕺𝕻𝕼𝕽𝕾𝕿𝖀𝖁𝖂𝖃𝖄𝖅',
-        'lower': '𝖆𝖇𝖈𝖉𝖊𝖋𝖌𝖍𝖎𝖏𝖐𝖑𝖒𝖓𝖔𝖕𝖖𝖗𝖘𝖙𝖚𝖛𝖜𝖝𝖞𝖟',
-        'digits': '0123456789'
-    },
-    'circled': {
-        'upper': 'ⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ',
-        'lower': 'ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ',
-        'digits': '⓪①②③④⑤⑥⑦⑧⑨'
-    },
-    'circledInverted': {
-        'upper': '🅐🅑🅒🅓🅔🅕🅖🅗🅘🅙🅚🅛🅜🅝🅞🅟🅠🅡🅢🅣🅤🅥🅦🅧🅨🅩',
-        'lower': '🅐🅑🅒🅓🅔🅕🅖🅗🅘🅙🅚🅛🅜🅝🅞🅟🅠🅡🅢🅣🅤🅥🅦🅧🅨🅩',
-        'digits': '0⓵⓶⓷⓸⓹⓺⓻⓼⓽'
-    },
-    'squared': {
-        'upper': '🄰🄱🄲🄳🄴🄵🄶🄷🄸🄹🄺🄻🄼🄽🄾🄿🅀🅁🅂🅃🅄🅅🅆🅇🅈🅉',
-        'lower': '🄰🄱🄲🄳🄴🄵🄶🄷🄸🄹🄺🄻🄼🄽🄾🄿🅀🅁🅂🅃🅄🅅🅆🅇🅈🅉',
-        'digits': '0123456789'
-    },
-    'squaredInverted': {
-        'upper': '🅰🅱🅲🅳🅴🅵🅶🅷🅸🅹🅺🅻🅼🅽🅾🅿🆀🆁🆂🆃🆄🆅🆆🆇🆈🆉',
-        'lower': '🅰🅱🅲🅳🅴🅵🅶🅷🅸🅹🅺🅻🅼🅽🅾🅿🆀🆁🆂🆃🆄🆅🆆🆇🆈🆉',
-        'digits': '0123456789'
-    },
-    'capitalized': {
-        'upper': 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-        'lower': 'ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘǫʀꜱᴛᴜᴠᴡxʏᴢ',
-        'digits': '0123456789'
-    },
-    'fullWidth': {
-        'upper': 'ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ',
-        'lower': 'ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ',
-        'digits': '０１２３４５６７８９'
-    },
-    'monospace': {
-        'upper': '𝙰𝙱𝙲𝙳𝙴𝙵𝙶𝙷𝙸𝙹𝙺𝙻𝙼𝙽𝙾𝙿𝚀𝚁𝚂𝚃𝚄𝚅𝚆𝚇𝚈𝚉',
-        'lower': '𝚊𝚋𝚌𝚍𝚎𝚏𝚐𝚑𝚒𝚓𝚔𝚕𝚖𝚗𝚘𝚙𝚚𝚛𝚜𝚝𝚞𝚟𝚠𝚡𝚢𝚣',
-        'digits': '𝟶𝟷𝟸𝟹𝟺𝟻𝟼𝟽𝟾𝟿'
-    },
-    'sansSerif': {
-        'upper': '𝖠𝖡𝖢𝖣𝖤𝖥𝖦𝖧𝖨𝖩𝖪𝖫𝖬𝖭𝖮𝖯𝖰𝖱𝖲𝖳𝖴𝖵𝖶𝖷𝖸𝖹',
-        'lower': '𝖺𝖻𝖼𝖽𝖾𝖿𝗀𝗁𝗂𝗃𝗄𝗅𝗆𝗇𝗈𝗉𝗊𝗋𝗌𝗍𝗎𝗏𝗐𝗑𝗒𝗓',
-        'digits': '𝟢𝟣𝟤𝟥𝟦𝟧𝟨𝟩𝟪𝟫'
-    },
-    'sansSerifItalic': {
-        'upper': '𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘑𝘒𝘓𝘔𝘕𝘖𝘗𝘘𝘙𝘚𝘛𝘜𝘝𝘞𝘟𝘠𝘡',
-        'lower': '𝘢𝘣𝘤𝘥𝘦𝘧𝘨𝘩𝘪𝘫𝘬𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𝘹𝘺𝘻',
-        'digits': '𝟢𝟣𝟤𝟥𝟦𝟧𝟨𝟩𝟪𝟫'
-    },
-    'sansSerifBold': {
-        'upper': '𝗔𝗕𝗖𝗗𝗘𝗙𝗚𝗛𝗜𝗝𝗞𝗟𝗠𝗡𝗢𝗣𝗤𝗥𝗦𝗧𝗨𝗩𝗪𝗫𝗬𝗭',
-        'lower': '𝗮𝗯𝗰𝗱𝗲𝗳𝗴𝗵𝗶𝗷𝗸𝗹𝗺𝗻𝗼𝗽𝗾𝗿𝘀𝘁𝘂𝘃𝘄𝘅𝘆𝘇',
-        'digits': '𝟬𝟭𝟮𝟯𝟰𝟱𝟲𝟳𝟴𝟵'
-    },
-    'sansSerifBoldItalic': {
-        'upper': '𝘼𝘽𝘾𝘿𝙀𝙁𝙂𝙃𝙄𝙅𝙆𝙇𝙈𝙉𝙊𝙋𝙌𝙍𝙎𝙏𝙐𝙑𝙒𝙓𝙔𝙕',
-        'lower': '𝙖𝙗𝙘𝙙𝙚𝙛𝙜𝙝𝙞𝙟𝙠𝙡𝙢𝙣𝙤𝙥𝙦𝙧𝙨𝙩𝙪𝙫𝙬𝙭𝙮𝙯',
-        'digits': '𝟬𝟭𝟮𝟯𝟰𝟱𝟲𝟳𝟴𝟵'
-    }
-}
+def _load_maps():
+    """
+    Load Unicode mapping tables from the shared unicode-maps.json.
+    Looks next to the engine first (installed layout), then in the
+    project root (development layout).
+    """
+    base = os.path.dirname(os.path.abspath(__file__))
+    candidates = [
+        os.path.join(base, 'unicode-maps.json'),
+        os.path.join(base, os.pardir, 'unicode-maps.json'),
+    ]
+    for path in candidates:
+        if os.path.isfile(path):
+            with open(path, encoding='utf-8') as f:
+                data = json.load(f)
+            return {
+                style['key']: {
+                    'upper': style['upper'],
+                    'lower': style['lower'],
+                    'digits': style['digits'],
+                }
+                for style in data['styles']
+            }
+    print("Warning: unicode-maps.json not found. Engine will be a no-op.",
+          file=sys.stderr)
+    return {}
+
+# Unicode mapping tables (shared source: ../unicode-maps.json)
+UNICODE_MAPS = _load_maps()
 
 
 class UnicodeFontEngine(IBus.Engine):
@@ -194,8 +147,7 @@ class IMApp:
         self.bus = IBus.Bus()
         self.bus.connect("disconnected", self.bus_disconnected_cb)
         self.factory = IBus.Factory.new(self.bus.get_connection())
-        self.factory.add_engine("unicode-fonts", 
-                                GLib.GType.from_name("UnicodeFontEngine"))
+        self.factory.add_engine("unicode-fonts", UnicodeFontEngine.__gtype__)
         
         if exec_by_ibus:
             self.bus.request_name("org.freedesktop.IBus.UnicodeFonts", 0)

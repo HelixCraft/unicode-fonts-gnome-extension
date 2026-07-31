@@ -1,52 +1,62 @@
 #!/bin/bash
-# Test for Unicode transformation logic
+# Test for Unicode transformation logic - uses the real unicodeMaps.js
 
-cat > /tmp/test_unicode.js << 'EOF'
-// Test Unicode transformation
+PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
-const maps = {
-    script: {
-        upper: '𝒜ℬ𝒞𝒟ℰℱ𝒢ℋℐ𝒥𝒦ℒℳ𝒩𝒪𝒫𝒬ℛ𝒮𝒯𝒰𝒱𝒲𝒳𝒴𝒵',
-        lower: '𝒶𝒷𝒸𝒹ℯ𝒻ℊ𝒽𝒾𝒿𝓀𝓁𝓂𝓃ℴ𝓅𝓆𝓇𝓈𝓉𝓊𝓋𝓌𝓍𝓎𝓏',
-        digits: '0123456789'
-    }
-};
+cat > /tmp/test_unicode.js << EOF
+// Test Unicode transformation using the real module
+imports.searchPath.unshift('$PROJECT_DIR');
 
-function transformChar(char, fontStyle) {
-    const map = maps[fontStyle];
-    if (!map) return char;
-    
-    const code = char.charCodeAt(0);
-    
-    if (code >= 65 && code <= 90) {
-        const upperChars = Array.from(map.upper);
-        return upperChars[code - 65] || char;
+const { UnicodeMaps, transformText, getFontStyles } = imports.unicodeMaps;
+
+let failed = 0;
+
+function check(label, actual, expected) {
+    if (actual === expected) {
+        print("✓ " + label + " PASSED");
+    } else {
+        print("✗ " + label + " FAILED");
+        print("  Expected: " + JSON.stringify(expected));
+        print("  Actual:   " + JSON.stringify(actual));
+        failed++;
     }
-    
-    if (code >= 97 && code <= 122) {
-        const lowerChars = Array.from(map.lower);
-        return lowerChars[code - 97] || char;
-    }
-    
-    if (code >= 48 && code <= 57) {
-        const digitChars = Array.from(map.digits);
-        return digitChars[code - 48] || char;
-    }
-    
-    return char;
 }
 
-function transformText(text, fontStyle) {
-    return Array.from(text).map(char => transformChar(char, fontStyle)).join('');
-}
-
-// Test
+// Script test
 const input = "Hello World 123";
 const output = transformText(input, 'script');
-print("Input:  " + input);
-print("Output: " + output);
-print("Expected: ℋℯ𝓁𝓁ℴ 𝒲ℴ𝓇𝓁𝒹 123");
-print(output === "ℋℯ𝓁𝓁ℴ 𝒲ℴ𝓇𝓁𝒹 123" ? "✓ TEST PASSED" : "✗ TEST FAILED");
+check("Script", output, "ℋℯ𝓁𝓁ℴ 𝒲ℴ𝓇𝓁𝒹 123");
+
+// Fraktur bug fix: B, C and I must be correct
+check("Fraktur ABCI", transformText("ABCI", 'fraktur'), "𝔄𝔅ℭℑ");
+
+// Circled digits
+check("Circled digits", transformText("123", 'circled'), "①②③");
+
+// Unsupported characters stay unchanged
+check("Unsupported char", transformText("AäB", 'script'), "𝒜äℬ");
+
+// Every style must have 26 upper, 26 lower and 10 digits
+let stylesOk = true;
+getFontStyles().forEach(style => {
+    const map = UnicodeMaps[style.key];
+    const counts = {
+        upper: Array.from(map.upper).length,
+        lower: Array.from(map.lower).length,
+        digits: Array.from(map.digits).length
+    };
+    if (counts.upper !== 26 || counts.lower !== 26 || counts.digits !== 10) {
+        print("✗ " + style.key + " lengths: upper=" + counts.upper +
+              " lower=" + counts.lower + " digits=" + counts.digits);
+        stylesOk = false;
+        failed++;
+    }
+});
+if (stylesOk) {
+    print("✓ All " + getFontStyles().length + " styles have complete mappings");
+}
+
+print(failed === 0 ? "ALL TESTS PASSED" : (failed + " TEST(S) FAILED"));
 EOF
 
 gjs /tmp/test_unicode.js

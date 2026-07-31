@@ -6,8 +6,6 @@ Ein vollständiges System zur Umwandlung von Text in verschiedene Unicode-Schrif
 
 ### GNOME Shell Extension
 - ✅ **15 Unicode-Schriftarten**: Script, Fraktur, Circled, Squared, Sans-Serif und mehr
-- ✅ **Panel-Icon**: Schneller Zugriff über die Top-Bar
-- ✅ **Live-Preview**: Sofortige Vorschau der Transformation
 - ✅ **Clipboard-Integration**: Ein Klick zum Kopieren
 - ✅ **Persistente Auswahl**: Schriftart wird automatisch gespeichert
 - ✅ **Wayland-kompatibel**: Läuft stabil unter GNOME 43 + Wayland
@@ -54,14 +52,19 @@ Ein vollständiges System zur Umwandlung von Text in verschiedene Unicode-Schrif
 **Installation:**
 ```bash
 cd ibus-unicode-fonts
-sudo ./install.sh
+./install.sh          # ohne sudo: per-User-Installation
+# sudo ./install.sh   # mit sudo: systemweite Installation
 ```
 
+Das Skript funktioniert aus jedem Verzeichnis, installiert Engine, Mapping-Daten,
+IBus-Komponente und GSettings-Schema automatisch (und ohne dass ein fehlerhafter
+Neustart von IBus deine Session stört), und registriert die Eingabequelle direkt.
+Danach einmal aus-/wieder einloggen (oder `./install.sh --restart`).
+
 **Konfiguration:**
-1. Öffne **GNOME Einstellungen** → **Tastatur** → **Eingabequellen**
-2. Klicke auf **+** um eine neue Eingabequelle hinzuzufügen
-3. Suche nach **"Unicode Fonts"** und füge sie hinzu
-4. Wechsle zur Unicode Fonts Eingabequelle (z.B. mit `Super + Space`)
+1. Drücke `Super + Space` und wähle **"Unicode Fonts"** als Eingabequelle
+2. Wähle die Schriftart in der GNOME Shell Extension
+3. Tippe – Zeichen werden live transformiert
 
 ## Nutzung
 
@@ -190,9 +193,9 @@ rm -rf ~/.local/share/gnome-shell/extensions/unicode-font-converter@gnome
 
 ### IBus Engine
 ```bash
-sudo rm -rf /usr/share/ibus-unicode-fonts
-sudo rm /usr/share/ibus/component/unicode-fonts.xml
-ibus restart
+cd ibus-unicode-fonts
+./uninstall.sh           # per-User-Teile
+sudo ./uninstall.sh      # zusätzlich systemweite Teile
 ```
 
 ## Troubleshooting
@@ -203,7 +206,9 @@ ibus restart
 - GNOME Shell neu laden: `Alt + F2`, dann `r`
 
 ### IBus Engine erscheint nicht in Eingabequellen
-- Prüfe Installation: `ls /usr/share/ibus/component/unicode-fonts.xml`
+- Nach Installation einmal aus-/wieder einloggen (IBus wird bei jedem Login neu gestartet)
+- Prüfe Installation: `ls ~/.local/share/ibus/component/unicode-fonts.xml` bzw. `ls /usr/share/ibus/component/unicode-fonts.xml`
+- Registrierte Engine prüfen: `ibus list-engine | grep unicode-fonts`
 - IBus neu starten: `ibus restart`
 - Prüfe IBus-Log: `ibus-daemon -xdr`
 

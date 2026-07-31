@@ -2,7 +2,7 @@
 <component>
   <name>org.freedesktop.IBus.UnicodeFonts</name>
   <description>Unicode Font Converter Input Method</description>
-  <exec>/usr/share/ibus-unicode-fonts/engine.py --ibus</exec>
+  <exec>@ENGINE_DIR@/engine.py --ibus</exec>
   <version>1.0.0</version>
   <author>Your Name</author>
   <license>GPL</license>
