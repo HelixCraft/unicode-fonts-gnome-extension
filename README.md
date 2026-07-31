@@ -222,3 +222,7 @@ Dein Name / GitHub-Username
 ## Beiträge
 
 Pull Requests sind willkommen! Bitte öffne zuerst ein Issue für größere Änderungen.
+
+## License
+
+This project is licensed under the [GNU General Public License v3.0](LICENSE).
