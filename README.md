@@ -10,12 +10,23 @@ Turn normal text into fancy Unicode lettering that works almost everywhere — c
 
 ## ✨ Features
 
+<table>
+<tr>
+<td valign="top" width="50%">
+
 - **15 Unicode font styles** — Script, Fraktur (Gothic), Circled, Squared, Sans-Serif (regular / italic / bold / bold-italic), Capitalized (small caps), Full Width, and Monospace.
 - **Live preview** — type or paste text and instantly see the converted result.
 - **One-click copy** — click **Copy to Clipboard**, or just press **Enter**.
 - **Remembers your choice** — the last style you picked is selected again next time.
 - **Automatic font handling** — if your system can't render the special characters yet, the extension installs a font for you and tells you to reload.
 - **Safe for any input** — emojis, umlauts, and other special characters pass through untouched; nothing ever breaks.
+
+</td>
+<td valign="top" width="25%">
+<img width="473" height="902" alt="Screenshot_2026-08-01_11-13-59" src="https://github.com/user-attachments/assets/52aeabd2-24e9-4439-976e-81a0c936a233" />
+</td>
+</tr>
+</table>
 
 ## 🔤 Available Fonts
 
@@ -55,6 +66,14 @@ That's it — no typing tricks, no extra steps.
 ## ⌨️ Optional: Type Directly with IBus
 
 Prefer to type in the fancy style everywhere, without copy-pasting? The optional **IBus Input Method Engine** lets you do exactly that — in *any* app, system-wide.
+
+
+<p align="center">
+  <img width="400" height="225" alt="grafik" src="https://github.com/user-attachments/assets/daeabaa3-8ec9-4465-83a5-d34b9c5d01da" />
+  <br>
+  <em>The IBus input method in action</em>
+</p>
+
 
 - **Works everywhere** — not just in the extension's text field.
 - **Converts as you type** — every letter and digit is transformed on the fly.
