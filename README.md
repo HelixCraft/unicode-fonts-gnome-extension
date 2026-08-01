@@ -1,98 +1,26 @@
-# Unicode Fonts for GNOME
+# Unicode Font Converter
 
-Ein vollständiges System zur Umwandlung von Text in verschiedene Unicode-Schriftarten, bestehend aus einer **GNOME Shell Extension** und einer optionalen **IBus Input Method Engine**.
+Turn normal text into fancy Unicode lettering that works almost everywhere — chat apps, email, documents, and social media — right from your GNOME top bar.
 
-## Features
+<p align="center">
+  <em>Ｔｙｐｅ 𝕠𝕣 𝓹𝓪𝓼𝓽𝓮 — 𝕊ℂℝᙢᖇⓉ, Ⓕ𝒓𝒂𝒌𝒕𝒖𝒓, 🅒🅘🅡🅒🅛🅔🅓, 🆂🆀🆄🅰🆁🅴🅳 & 𝗆𝗈𝗋𝖾</em>
+</p>
 
-### GNOME Shell Extension
-- ✅ **15 Unicode-Schriftarten**: Script, Fraktur, Circled, Squared, Sans-Serif und mehr
-- ✅ **Clipboard-Integration**: Ein Klick zum Kopieren
-- ✅ **Persistente Auswahl**: Schriftart wird automatisch gespeichert
-- ✅ **Wayland-kompatibel**: Läuft stabil unter GNOME 43 + Wayland
+---
 
-### IBus Input Method Engine (Optional)
-- ✅ **Systemweite Eingabe**: Funktioniert in jeder Anwendung
-- ✅ **On-the-fly-Transformation**: Zeichen werden beim Tippen umgewandelt
-- ✅ **Synchronisiert mit Extension**: Nutzt die gleiche Schriftauswahl
+## ✨ Features
 
-## Installation
+- **15 Unicode font styles** — Script, Fraktur (Gothic), Circled, Squared, Sans-Serif (regular / italic / bold / bold-italic), Capitalized (small caps), Full Width, and Monospace.
+- **Live preview** — type or paste text and instantly see the converted result.
+- **One-click copy** — click **Copy to Clipboard**, or just press **Enter**.
+- **Remembers your choice** — the last style you picked is selected again next time.
+- **Automatic font handling** — if your system can't render the special characters yet, the extension installs a font for you and tells you to reload.
+- **Safe for any input** — emojis, umlauts, and other special characters pass through untouched; nothing ever breaks.
 
-### GNOME Shell Extension (Pflicht)
+## 🔤 Available Fonts
 
-1. **Extension installieren:**
-   ```bash
-   cd unicode-font-converter
-   
-   # Schema kompilieren
-   glib-compile-schemas schemas/
-   
-   # Extension installieren
-   mkdir -p ~/.local/share/gnome-shell/extensions/unicode-font-converter@gnome
-   cp -r * ~/.local/share/gnome-shell/extensions/unicode-font-converter@gnome/
-   ```
-
-2. **GNOME Shell neu laden:**
-   - Drücke `Alt + F2`
-   - Tippe `r` und drücke Enter
-   - Oder logge dich aus und wieder ein
-
-3. **Extension aktivieren:**
-   ```bash
-   gnome-extensions enable unicode-font-converter@gnome
-   ```
-
-   Alternativ über GNOME Extensions App.
-
-### IBus Input Method Engine (Optional)
-
-**Voraussetzungen:**
-- IBus installiert (`sudo apt install ibus` auf Debian/Ubuntu)
-- Python 3 mit GObject Introspection
-
-**Installation:**
-```bash
-cd ibus-unicode-fonts
-./install.sh          # ohne sudo: per-User-Installation
-# sudo ./install.sh   # mit sudo: systemweite Installation
-```
-
-Das Skript funktioniert aus jedem Verzeichnis, installiert Engine, Mapping-Daten,
-IBus-Komponente und GSettings-Schema automatisch (und ohne dass ein fehlerhafter
-Neustart von IBus deine Session stört), und registriert die Eingabequelle direkt.
-Danach einmal aus-/wieder einloggen (oder `./install.sh --restart`).
-
-**Konfiguration:**
-1. Drücke `Super + Space` und wähle **"Unicode Fonts"** als Eingabequelle
-2. Wähle die Schriftart in der GNOME Shell Extension
-3. Tippe – Zeichen werden live transformiert
-
-## Nutzung
-
-### GNOME Shell Extension
-
-1. **Klicke auf das Icon** in der Top-Bar (Zeichen-Tabellen-Symbol)
-2. **Wähle eine Schriftart** aus dem Dropdown-Menü
-3. **Tippe oder füge Text ein** im Eingabefeld
-4. **Sieh die Live-Preview** der Transformation
-5. **Klicke "Copy to Clipboard"** um den transformierten Text zu kopieren
-
-**Beispiel:**
-- Eingabe: `Hello World`
-- Script: `ℋℯ𝓁𝓁ℴ 𝒲ℴ𝓇𝓁𝒹`
-- Fraktur: `ℌ𝔢𝔩𝔩𝔬 𝔚𝔬𝔯𝔩𝔡`
-- Circled: `Ⓗⓔⓛⓛⓞ Ⓦⓞⓡⓛⓓ`
-
-### IBus Input Method
-
-1. **Wechsle zur Unicode Fonts Eingabequelle** (z.B. `Super + Space`)
-2. **Wähle die gewünschte Schriftart** in der GNOME Shell Extension
-3. **Tippe normal** - Zeichen werden automatisch transformiert
-4. **Wechsle zurück** zur normalen Tastatur für reguläre Eingabe
-
-## Verfügbare Schriftarten
-
-| Schriftart | Beispiel |
-|------------|----------|
+| Style | Preview |
+|---|---|
 | Script | 𝒯𝓎𝓅ℯ ℴ𝓇 𝓅𝒶𝓈𝓉ℯ 𝓎ℴ𝓊𝓇 𝒸ℴ𝓃𝓉ℯ𝓃𝓉 𝒽ℯ𝓇ℯ |
 | Script (Bold) | 𝓣𝔂𝓹𝓮 𝓸𝓻 𝓹𝓪𝓼𝓽𝓮 𝔂𝓸𝓾𝓻 𝓬𝓸𝓷𝓽𝓮𝓷𝓽 𝓱𝓮𝓻𝓮 |
 | Fraktur | 𝔗𝔶𝔭𝔢 𝔬𝔯 𝔭𝔞𝔰𝔱𝔢 𝔶𝔬𝔲𝔯 𝔠𝔬𝔫𝔱𝔢𝔫𝔱 𝔥𝔢𝔯𝔢 |
@@ -109,125 +37,103 @@ Danach einmal aus-/wieder einloggen (oder `./install.sh --restart`).
 | Sans-Serif (Bold) | 𝗧𝘆𝗽𝗲 𝗼𝗿 𝗽𝗮𝘀𝘁𝗲 𝘆𝗼𝘂𝗿 𝗰𝗼𝗻𝘁𝗲𝗻𝘁 𝗵𝗲𝗿𝗲 |
 | Sans-Serif (Bold Italic) | 𝙏𝙮𝙥𝙚 𝙤𝙧 𝙥𝙖𝙨𝙩𝙚 𝙮𝙤𝙪𝙧 𝙘𝙤𝙣𝙩𝙚𝙣𝙩 𝙝𝙚𝙧𝙚 |
 
-## Architektur & Wayland-Einschränkungen
+> ℹ️ Circled, Circled (Inverted), Squared, and Squared (Inverted) use the same glyph for upper- and lowercase letters, so case is not preserved in those styles.
 
-### Warum diese Architektur?
 
-Unter **Wayland** ist es aus Sicherheitsgründen **nicht möglich**, dass GNOME Shell Extensions direkt Tastatureingaben abfangen oder manipulieren. Dies ist eine bewusste Design-Entscheidung von Wayland, um Keylogging und andere Sicherheitsrisiken zu verhindern.
+## 🚀 Using the Extension
 
-### Lösung: Zwei-Komponenten-System
+1. Click the icon in the **top bar** (looks like a character table).
+2. Pick a **font style** from the dropdown (e.g. "Fraktur" or "Circled").
+3. **Type or paste** your text into the field.
+4. Check the **live preview**.
+5. Click **Copy to Clipboard**, or press **Enter**.
+6. Paste it anywhere.
 
-1. **GNOME Shell Extension**:
-   - Bietet UI für Schriftauswahl und Copy/Paste-Workflow
-   - Speichert Schriftauswahl in GSettings
-   - Funktioniert eigenständig für manuelle Transformation
+That's it — no typing tricks, no extra steps.
 
-2. **IBus Input Method Engine** (optional):
-   - Läuft als separater Prozess außerhalb der Shell
-   - Hat legitimen Zugriff auf Tastatureingaben (wie jede andere Input Method)
-   - Liest Schriftauswahl aus GSettings
-   - Transformiert Zeichen in Echtzeit
 
-### Kommunikation
+## ⌨️ Optional: Type Directly with IBus
 
-```
-┌─────────────────────────┐
-│  GNOME Shell Extension  │
-│  (UI + Schriftauswahl)  │
-└───────────┬─────────────┘
-            │
-            │ GSettings
-            │ (selected-font)
-            │
-            ▼
-┌─────────────────────────┐
-│   IBus Engine (Python)  │
-│  (Tastatur-Transform.)  │
-└─────────────────────────┘
-```
+Prefer to type in the fancy style everywhere, without copy-pasting? The optional **IBus Input Method Engine** lets you do exactly that — in *any* app, system-wide.
 
-## Technische Details
+- **Works everywhere** — not just in the extension's text field.
+- **Converts as you type** — every letter and digit is transformed on the fly.
+- **Always in sync** — it automatically uses whatever style you last selected in the extension.
 
-### Unicode-Transformation
+### How to use it
 
-Die Transformation erfolgt über **Mapping-Tabellen**, nicht über Fonts:
-- Jeder Buchstabe wird auf sein Unicode-Äquivalent gemappt
-- Beispiel: `A` → `𝒜` (U+1D49C, Mathematical Script Capital A)
-- Nicht unterstützte Zeichen bleiben unverändert
-- Keine Abstürze bei Emojis, Umlauten oder Sonderzeichen
+1. Switch to the **"Unicode Fonts"** input source (**Super + Space**, or Settings → Keyboard → Input Sources).
+2. Pick your style in the extension's top-bar menu.
+3. **Type normally** — letters and digits are converted live.
+4. Switch back to your regular layout for normal text.
 
-### Persistenz
+> Shortcuts like Ctrl+C still work — only plain letter/digit keystrokes are transformed.
 
-Die Schriftauswahl wird in **GSettings** gespeichert:
-- Schema: `org.gnome.shell.extensions.unicode-font-converter`
-- Key: `selected-font`
-- Wird automatisch beim Öffnen wiederhergestellt
+---
 
-## Testen
+## 📦 Installation
 
-### Extension-Syntax prüfen
+### 1. GNOME Shell Extension (required)
+
 ```bash
 cd unicode-font-converter
-gjs -c extension.js
+
+# Compile the settings schema
+glib-compile-schemas schemas/
+
+# Install into your user extensions folder
+mkdir -p ~/.local/share/gnome-shell/extensions/unicode-font-converter@gnome
+cp -r * ~/.local/share/gnome-shell/extensions/unicode-font-converter@gnome/
+
+# Reload GNOME Shell: press Alt+F2, type r, press Enter
+# (or log out and back in)
+
+# Enable it
+gnome-extensions enable unicode-font-converter@gnome
 ```
 
-### Extension-Log anzeigen
-```bash
-journalctl -f -o cat /usr/bin/gnome-shell
-```
+You can also enable/disable it later via the **GNOME Extensions** app.
 
-### IBus-Engine testen
-```bash
-# Engine manuell starten (Debug-Modus)
-cd ibus-unicode-fonts
-./engine.py
-```
+**To remove:**
 
-## Deinstallation
-
-### GNOME Shell Extension
 ```bash
 gnome-extensions disable unicode-font-converter@gnome
 rm -rf ~/.local/share/gnome-shell/extensions/unicode-font-converter@gnome
 ```
 
-### IBus Engine
+### 2. IBus Input Method Engine (optional)
+
+Requires **IBus** and **Python 3 with GObject Introspection**:
+
 ```bash
-cd ibus-unicode-fonts
-./uninstall.sh           # per-User-Teile
-sudo ./uninstall.sh      # zusätzlich systemweite Teile
+sudo apt install ibus python3-gi
 ```
 
-## Troubleshooting
+Then run the installer:
 
-### Extension erscheint nicht in der Top-Bar
-- Prüfe, ob Extension aktiviert ist: `gnome-extensions list`
-- Schaue ins Log: `journalctl -f -o cat /usr/bin/gnome-shell`
-- GNOME Shell neu laden: `Alt + F2`, dann `r`
+```bash
+cd ibus-unicode-fonts
+./install.sh          # per-user install, no root needed
+# sudo ./install.sh   # system-wide install for all users
+```
 
-### IBus Engine erscheint nicht in Eingabequellen
-- Nach Installation einmal aus-/wieder einloggen (IBus wird bei jedem Login neu gestartet)
-- Prüfe Installation: `ls ~/.local/share/ibus/component/unicode-fonts.xml` bzw. `ls /usr/share/ibus/component/unicode-fonts.xml`
-- Registrierte Engine prüfen: `ibus list-engine | grep unicode-fonts`
-- IBus neu starten: `ibus restart`
-- Prüfe IBus-Log: `ibus-daemon -xdr`
+The installer handles everything automatically — it copies the engine, registers the input source in GNOME, and compiles the settings schema. Afterwards, **log out and back in** (or run `./install.sh --restart`), then switch to **"Unicode Fonts"** with **Super + Space**.
 
-### Transformation funktioniert nicht
-- Prüfe, ob GSettings-Schema kompiliert wurde
-- Prüfe aktuelle Schriftauswahl: `gsettings get org.gnome.shell.extensions.unicode-font-converter selected-font`
+**To remove:**
 
-## Lizenz
+```bash
+cd ibus-unicode-fonts
+./uninstall.sh        # removes per-user installation
+# sudo ./uninstall.sh # also removes system-wide installation
+```
 
-GPL (wie in den Metadaten angegeben)
+Log out and back in to finish the removal.
 
-## Autor
+---
 
-Dein Name / GitHub-Username
 
-## Beiträge
+---
 
-Pull Requests sind willkommen! Bitte öffne zuerst ein Issue für größere Änderungen.
+## 📄 License
 
-## License
-
-This project is licensed under the [GNU General Public License v3.0](LICENSE).
+Licensed under the **GNU General Public License v3.0**. See the [LICENSE](LICENSE) file for details.
